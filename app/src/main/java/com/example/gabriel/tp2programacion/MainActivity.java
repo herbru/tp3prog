@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         if (Db != null){
             responder = true;
         }
-        Db.close();
         return responder;
     }
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 //leo los registros hasta que encuentre un nombre igual al ingresado o que termine de recorer los registros
                 do{
                     //si el nombre ingresado es igual al del registro devuelvo true
-                    if (Nombre == Registros.getString(0)){
+                    if (Nombre.compareTo(Registros.getString(0)) == 0){
                         return  true;
                     }
                 }while(Registros.moveToNext());
@@ -119,11 +119,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void generar(View vista) {
-        Log.d("generar", "entro a generar");
         TextView txtYaJugo = (TextView)findViewById(R.id.txtYaJugo);
-        Log.d("generar", "encontro el txt");
-        //txtYaJugo.setVisibility(View.VISIBLE);
-        Log.d("generar", "lo hizo visible");
+        txtYaJugo.setVisibility(View.VISIBLE);
+
+        EditText txtNombre = (EditText)findViewById(R.id.txtNombre);
 
         LinearLayout linear1 = (LinearLayout)findViewById(R.id.Linear1);
         LinearLayout linear2 = (LinearLayout)findViewById(R.id.Linear2);
@@ -134,11 +133,11 @@ public class MainActivity extends AppCompatActivity {
         linear3.setVisibility(View.VISIBLE);
 
         //verifico si el usuario ya jugo antes
-        if (YaJugo(txtYaJugo.getText().toString())){
+        if (YaJugo(txtNombre.getText().toString())){
             txtYaJugo.setText("Usted ya jugo antes");
         }
         else{
-            InsertarUsuario(txtYaJugo.getText().toString());
+            InsertarUsuario(txtNombre.getText().toString());
             txtYaJugo.setText("Es la primera vez que juega");
         }
 
